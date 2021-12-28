@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Environment>
+    <!--CONF-TEST.PY-->
+    <Browser>chrome</Browser>
+    <Driver>webdriver</Driver>
+
+    <!--MOBILE_CONF-TEST.PY-->
+    <Reports>C:/Users/GIL/PycharmProjects/AutomationPythonHackathon/AaReports_file/AppiumReports</Reports>
+    <Xml>xml</Xml>
+    <Untitled>Financial Calculators</Untitled>
+    <Udid>3f8868510504</Udid>
+    <AppPackage>com.financial.calculator</AppPackage>
+    <AppActivity>.FinancialCalculators</AppActivity>
+    <PlatformName>android</PlatformName>
+    <LocalHost>http://localhost:4722/wd/hub</LocalHost>
+
+    <!--MOBILE_TESTCASES_VARIABLES-->
+    <!--test_01tvm_calculator-->
+    <test_01present_value>15,000</test_01present_value>
+    <test_01payment>11,000</test_01payment>
+    <test_01future_value>9,000</test_01future_value>
+    <test_01annual_rate>1</test_01annual_rate>
+    <test_01periods>3</test_01periods>
+    <!--test_02currency_converter-->
+    <test_02rate>50</test_02rate>
+    <test_02amount>3</test_02amount>
+    <!--test_03loan_calculator-->
+    <test_03amount>30,000</test_03amount>
+    <test_03interest_rate>3</test_03interest_rate>
+    <test_03loan_term_years>1</test_03loan_term_years>
+    <test_03loan_term_months>3</test_03loan_term_months>
+    <test_03extra_payment>100</test_03extra_payment>
+    <!--test_04compound_interest_calculator-->
+    <test_04principal_amount>5,000</test_04principal_amount>
+    <test_04monthly_deposit>2,000</test_04monthly_deposit>
+    <test_04period>10</test_04period>
+    <test_04annual_interest_rate>3</test_04annual_interest_rate>
+    <!--test_05credit_card_payoff-->
+    <test_05cc_balance>30,000</test_05cc_balance>
+    <test_05cc_interest>1</test_05cc_interest>
+    <test_05payment_per_month>2,000</test_05payment_per_month>
+
+
+    <apiUrl>http://localhost:3000/posts</apiUrl>
+    <id_post>99</id_post>
+    <payload>{"userId": 16, "id": "107", "title": "test", "body": "123"}</payload>
+    <excepted_result_desktop>14</excepted_result_desktop>
+</Environment>

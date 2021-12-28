@@ -1,0 +1,36 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+conftest.py:
+driver = None
+action = None
+@pytest.fixture(scope='class')
+def init_web(request):
+   driver = ......
+   globals()['driver'] = driver
+   request.cls.driver = driver
+
+   yeild
+   driver.quit()
+
+@pytest.fixture(scope='class')
+def init_mobile(request):
+   driver = ......
+   globals()['driver'] = driver
+
+   yeild
+   driver.quit()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+common_ops.py
+def get_data():
+   pass
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_web.py:
+@pytest.mark.usefixtures('init_web')
+class Test_Cases_Web:
+    def test01():
+    .......
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_mobile.py:
+@pytest.mark.usefixtures('init_mobile')
+class Test_Cases_Mobile:
+    def test01():
