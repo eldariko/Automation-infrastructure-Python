@@ -33,7 +33,7 @@ testName = get_data("Untitled")
 
 # ----------------------------------------
 # ELECTRON
-electron_app = r"C:\automation\Electron API Demos-win32-ia32\Electron API Demos.exe"
+electron_app = r"C:\Automation\Electrons\Electron API Demos.exe"
 edriver = r"..\drivers\electrondriver.exe"
 
 

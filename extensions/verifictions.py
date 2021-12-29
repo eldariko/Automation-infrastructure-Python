@@ -24,5 +24,4 @@ class Verification:
     def soft_assert_equal(actual, expected):
         TestCase.assertEqual(actual, expected, "Test Failed")
 
-    def verify_true(condition):
-        assert condition
+
