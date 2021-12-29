@@ -10,12 +10,15 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-
+from utils.managers.manage_pages import ManagePages
 from utils.common_ops import get_data
 from utils.managers.listeners import EventListener
 # ----------------------------------------
-# WEB
-from utils.managers.manage_pages import ManagePages
+# DB
+host=get_data("host")
+user=get_data("user")
+password=get_data("password")
+
 
 # WEB
 driver: EventFiringWebDriver
@@ -23,6 +26,7 @@ wait: WebDriverWait
 action = None
 e_driver: WebDriver
 db = None
+url_before_method=get_data("url_before_method")
 
 # ----------------------------------------
 # MOBILE
@@ -67,23 +71,22 @@ def my_web_starter(request: FixtureRequest):
     globals()['wait'] = wait
     ManagePages.init_web_pages(driver)
     yield driver
-
     # driver.quit()
 
 
 @pytest.fixture(scope='function')
 def my_web_before_method():
     global driver
-    driver.get("http://localhost:4000")
+    driver.get(url_before_method)
 
 
 @pytest.fixture(scope="module")
 def db_set_up():
     global db
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234"
+        host=host,
+        user=user,
+        password=password
     )
     mycursor = db.cursor()
     mycursor.execute("DROP SCHEMA IF EXISTS users;")
@@ -111,18 +114,15 @@ def my_mobile_starter(request):
     driver = EventFiringWebDriver(edriver, EventListener())
     driver.implicitly_wait(wait_1)
     wait = WebDriverWait(driver, wait_2)
-
     globals()['driver'] = driver
     request.cls.driver = driver
     ManagePages.init_mobile_pages(driver)
-
     yield
     driver.quit()
 
-
 @pytest.fixture(scope='class')
 def init_api(request):
-
+    print("init api")
 
 
 @pytest.fixture(scope='class')
