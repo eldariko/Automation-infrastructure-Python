@@ -1,16 +1,11 @@
 import json
-
 import allure
 from extensions.verifictions import Verification
 from workflows import api_flows
-
 from utils.common_ops import get_data
 
 url = get_data("apiUrl")
 id = get_data("id_post")
-# payload = {"userId": 12, "id": "103", "title": "test", "body": "123"}
-
-
 payload = json.loads(get_data("payload"))
 
 

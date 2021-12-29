@@ -1,14 +1,11 @@
 import allure
 import pytest
-
 from extensions.verifictions import Verification
 from utils.common_ops import get_data
 from utils.managers.manage_pages import ManagePages
 from workflows import desktop_flows
 
 result = get_data("excepted_result_desktop")
-
-
 @pytest.mark.usefixtures("my_desktop_starter")
 class Test_Desktop:
 

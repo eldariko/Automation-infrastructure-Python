@@ -33,11 +33,18 @@ testName = get_data("Untitled")
 
 # ----------------------------------------
 # ELECTRON
-electron_app = r"C:\automation\Electron API Demos-win32-ia32\Electron API Demos.exe"
-edriver = r"..\drivers\electrondriver.exe"
-
+electron_app = get_data("api_demo")
+edriver =get_data("electron_driver")
 
 # ----------------------------------------
+#Desktop
+desktop_app=get_data("desktop_app")
+desktop_platfrom=get_data("desktop_platfrom")
+desktop_device=get_data("desktop_device")
+desktop_url=get_data("desktop_url")
+#-----------------------------------------
+wait_1=5
+wait_2=10
 
 @pytest.fixture(scope='class')
 def my_web_starter(request: FixtureRequest):
@@ -102,8 +109,8 @@ def my_mobile_starter(request):
     dc['platformName'] = get_data('PlatformName')
     edriver = webdriver.Remote(get_data("LocalHost"), dc)
     driver = EventFiringWebDriver(edriver, EventListener())
-    driver.implicitly_wait(5)
-    wait = WebDriverWait(driver, 10)
+    driver.implicitly_wait(wait_1)
+    wait = WebDriverWait(driver, wait_2)
 
     globals()['driver'] = driver
     request.cls.driver = driver
@@ -115,22 +122,20 @@ def my_mobile_starter(request):
 
 @pytest.fixture(scope='class')
 def init_api(request):
-    # url = get_data("base_url")
-    url = 'http://localhost:3000'
-    request.cls.url = url
+
 
 
 @pytest.fixture(scope='class')
 def my_desktop_starter(request):
     desired_caps = {}
-    desired_caps["app"] = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"
-    desired_caps["platformName"] = "Windows"
-    desired_caps["deviceName"] = "WindowsPC"
-    driver = webdriver.Remote("http://127.0.0.1:4723", desired_caps)
-    driver.implicitly_wait(5)
+    desired_caps["app"] = desktop_app
+    desired_caps["platformName"] = desktop_platfrom
+    desired_caps["deviceName"] = desktop_device
+    driver = webdriver.Remote(desktop_url, desired_caps)
+    driver.implicitly_wait(wait_1)
     globals()['driver'] = driver
     request.cls.driver = driver
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, wait_2)
     globals()['wait'] = wait
     ManagePages.init_desktop_page(driver)
     yield
@@ -142,7 +147,7 @@ def my_electron_starter(request):
     options = webdriver.ChromeOptions()
     options.binary_location = electron_app
     driver = webdriver.Chrome(chrome_options=options, executable_path=edriver)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(wait_1)
     globals()['driver'] = driver
     request.cls.driver = driver
     ManagePages.init_electron_page(driver)
@@ -163,6 +168,6 @@ def runner_setup():
 def applitools_set_up(runner):
     global driver, e_driver
     eyes = Eyes(runner)
-    eyes.api_key = "Y7YclUHy7uKAB110GYMAC9bTPBHimPnc3wUQ4UyPgBtRs110"
+    eyes.api_key = get_data("apikekeyeyools")
     eyes.open(e_driver, "Hack", "Dismiss test")
     yield eyes

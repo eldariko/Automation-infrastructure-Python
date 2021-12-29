@@ -39,10 +39,20 @@
     <test_05cc_balance>30,000</test_05cc_balance>
     <test_05cc_interest>1</test_05cc_interest>
     <test_05payment_per_month>2,000</test_05payment_per_month>
-
-
+    <!--test_api-->
     <apiUrl>http://localhost:3000/posts</apiUrl>
     <id_post>99</id_post>
     <payload>{"userId": 16, "id": "107", "title": "test", "body": "123"}</payload>
     <excepted_result_desktop>14</excepted_result_desktop>
+    <!--test_electron-->
+    <electron_driver>..\drivers\electrondriver.exe</electron_driver>
+    <api_demo>C:\automation\Electron API Demos-win32-ia32\Electron API Demos.exe</api_demo>
+    <!--test_api-->
+    <apikekeyeyools>Y7YclUHy7uKAB110GYMAC9bTPBHimPnc3wUQ4UyPgBtRs110</apikekeyeyools>
+
+
+    <desktop_app>Microsoft.WindowsCalculator_8wekyb3d8bbwe!App</desktop_app>
+    <desktop_platfrom>Windows</desktop_platfrom>
+    <desktop_device>WindowsPC</desktop_device>
+    <desktop_url>http://127.0.0.1:4723</desktop_url>
 </Environment>
