@@ -1,7 +1,5 @@
 import csv
 
-import pytest
-
 
 def read_test_data_from_csv(csv_path):
     test_data = []

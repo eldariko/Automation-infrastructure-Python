@@ -1,13 +1,13 @@
 import allure
 
-from extensions import desktop_action
-from utils.managers.manage_pages import ManagePages
+from extensions.actions import UIActions
+from page_objects.desktop import calculator_page
 
 
 @allure.step("Desktop calculator addition ")
 def addition():
-    desktop_action.click(ManagePages.cl.get_clear())
-    desktop_action.click(ManagePages.cl.get_tow())
-    desktop_action.click(ManagePages.cl.get_multi())
-    desktop_action.click(ManagePages.cl.get_seven())
-    desktop_action.click(ManagePages.cl.get_equels())
+    UIActions.click(calculator_page.get_clear())
+    UIActions.click(calculator_page.get_two())
+    UIActions.click(calculator_page.get_multi())
+    UIActions.click(calculator_page.get_seven())
+    UIActions.click(calculator_page.get_equels())

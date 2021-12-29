@@ -1,31 +1,39 @@
-from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 
-class Calculator_Page:
+def get_two():
+    return By.NAME, "Two"
 
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
+    # return self.driver.find_element_by_name("Two")
 
-    def get_tow(self):
-        return self.driver.find_element_by_name("Two")
 
-    def get_seven(self):
-        return self.driver.find_element_by_name("Seven")
+def get_seven():
+    return By.NAME, "Seven"
+    # return self.driver.find_element_by_name("Seven")
 
-    def get_clear(self):
-        return self.driver.find_element_by_name("Clear")
 
-    def get_equels(self):
-        return self.driver.find_element_by_name("Equals")
+def get_clear():
+    return By.NAME, "Clear"
 
-    def get_multi(self):
-        return self.driver.find_element_by_name("Multiply by")
 
-    def get_result(self):
-        return self.driver.find_elements_by_xpath("//*[@AutomationId='CalculatorResults']")
+def get_equels():
+    return By.NAME, "Equals"
+    # return self.driver.find_element_by_name("Equals")
 
-    def get_result(self):
-        # trim extra text and whitespace off of the display value
-        return self.driver.find_element_by_xpath("//*[@AutomationId='CalculatorResults']").text.replace("Display is",
-                                                                                                        "").strip()
+
+def get_multi():
+    return By.NAME, "Multiply by"
+
+    # return self.driver.find_element_by_name("Multiply by")
+
+
+# def get_result(self):
+# return By.XPATH, "//*[@AutomationId='CalculatorResults']"
+
+# return self.driver.find_elements_by_xpath("//*[@AutomationId='CalculatorResults']")
+
+def get_result():
+    # trim extra text and whitespace off of the display value
+    # return self.driver.find_element_by_xpath("//*[@AutomationId='CalculatorResults']").text.replace("Display is",
+    #                                                                                                 "").strip()
+    return By.XPATH, "//*[@AutomationId='CalculatorResults']"

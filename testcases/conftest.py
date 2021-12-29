@@ -1,6 +1,5 @@
 import mysql.connector
 import pytest
-import requests
 from _pytest.fixtures import FixtureRequest
 from applitools.selenium import ClassicRunner, Eyes
 from selenium import webdriver
@@ -13,9 +12,12 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 from utils.common_ops import get_data
 from utils.managers.listeners import EventListener
+
 # ----------------------------------------
-# WEB
-from utils.managers.manage_pages import ManagePages
+# DB
+host = get_data("host")
+user = get_data("user")
+password = get_data("password")
 
 # WEB
 driver: EventFiringWebDriver
@@ -23,6 +25,7 @@ wait: WebDriverWait
 action = None
 e_driver: WebDriver
 db = None
+url_before_method = get_data("url_before_method")
 
 # ----------------------------------------
 # MOBILE
@@ -33,11 +36,19 @@ testName = get_data("Untitled")
 
 # ----------------------------------------
 # ELECTRON
-electron_app = r"C:\automation\Electron API Demos-win32-ia32\Electron API Demos.exe"
-edriver = r"..\drivers\electrondriver.exe"
-
+electron_app = get_data("api_demo")
+edriver = get_data("electron_driver")
 
 # ----------------------------------------
+# Desktop
+desktop_app = get_data("desktop_app")
+desktop_platfrom = get_data("desktop_platfrom")
+desktop_device = get_data("desktop_device")
+desktop_url = get_data("desktop_url")
+# -----------------------------------------
+wait_1 = 5
+wait_2 = 10
+
 
 @pytest.fixture(scope='class')
 def my_web_starter(request: FixtureRequest):
@@ -58,25 +69,24 @@ def my_web_starter(request: FixtureRequest):
     request.cls.driver = globals()['driver']
     wait = WebDriverWait(driver, 10)
     globals()['wait'] = wait
-    ManagePages.init_web_pages(driver)
     yield driver
 
-    # driver.quit()
+    driver.quit()
 
 
 @pytest.fixture(scope='function')
 def my_web_before_method():
     global driver
-    driver.get("http://localhost:4000")
+    driver.get(url_before_method)
 
 
 @pytest.fixture(scope="module")
 def db_set_up():
     global db
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234"
+        host=host,
+        user=user,
+        password=password
     )
     mycursor = db.cursor()
     mycursor.execute("DROP SCHEMA IF EXISTS users;")
@@ -92,7 +102,7 @@ def db_set_up():
 
 @pytest.fixture(scope='class')
 def my_mobile_starter(request):
-    global pay_off_calc_page, wait
+    global wait, edriver, driver
     dc['reportDirectory'] = reportDirectory
     dc['reportFormat'] = reportFormat
     dc['testName'] = testName
@@ -102,50 +112,44 @@ def my_mobile_starter(request):
     dc['platformName'] = get_data('PlatformName')
     edriver = webdriver.Remote(get_data("LocalHost"), dc)
     driver = EventFiringWebDriver(edriver, EventListener())
-    driver.implicitly_wait(5)
-    wait = WebDriverWait(driver, 10)
-
+    driver.implicitly_wait(wait_1)
+    wait = WebDriverWait(driver, wait_2)
     globals()['driver'] = driver
     request.cls.driver = driver
-    ManagePages.init_mobile_pages(driver)
 
     yield
     driver.quit()
 
 
 @pytest.fixture(scope='class')
-def init_api(request):
-    # url = get_data("base_url")
-    url = 'http://localhost:3000'
-    request.cls.url = url
+def init_api():
+    print("init api")
 
 
 @pytest.fixture(scope='class')
 def my_desktop_starter(request):
-    desired_caps = {}
-    desired_caps["app"] = "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"
-    desired_caps["platformName"] = "Windows"
-    desired_caps["deviceName"] = "WindowsPC"
-    driver = webdriver.Remote("http://127.0.0.1:4723", desired_caps)
-    driver.implicitly_wait(5)
+    global driver, wait
+    desired_caps = {"app": desktop_app, "platformName": desktop_platfrom, "deviceName": desktop_device}
+    driver = webdriver.Remote(desktop_url, desired_caps)
+    driver.implicitly_wait(wait_1)
     globals()['driver'] = driver
     request.cls.driver = driver
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, wait_2)
     globals()['wait'] = wait
-    ManagePages.init_desktop_page(driver)
     yield
     driver.quit()
 
 
 @pytest.fixture(scope='class')
 def my_electron_starter(request):
+    global driver, wait
     options = webdriver.ChromeOptions()
     options.binary_location = electron_app
     driver = webdriver.Chrome(chrome_options=options, executable_path=edriver)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(wait_1)
+    wait = WebDriverWait(driver, wait_2)
     globals()['driver'] = driver
     request.cls.driver = driver
-    ManagePages.init_electron_page(driver)
     yield
     driver.quit()
 
@@ -163,6 +167,6 @@ def runner_setup():
 def applitools_set_up(runner):
     global driver, e_driver
     eyes = Eyes(runner)
-    eyes.api_key = "Y7YclUHy7uKAB110GYMAC9bTPBHimPnc3wUQ4UyPgBtRs110"
+    eyes.api_key = get_data("apikekeyeyools")
     eyes.open(e_driver, "Hack", "Dismiss test")
     yield eyes

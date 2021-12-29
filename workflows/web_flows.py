@@ -1,68 +1,64 @@
 import random
 
-from extensions import ui_actions
-from utils.managers.manage_pages import ManagePages
+from extensions.actions import UIActions
+from page_objects.web import login_page, web_main_page, sign_up_page, notifications_page, create_bank_account_page
 
 
 def login_flow(user_name, password):
-    ui_actions.set_text(ManagePages.lp.locator_input_user_name, user_name)
-    ui_actions.set_text(ManagePages.lp.locator_input_password, password)
-    ui_actions.click(ManagePages.lp.locator_button_sign_in)
-
-
-def get_user_name_txt():
-    return ManagePages.mp.txt_user_name().text
+    UIActions.set_text(login_page.input_user_name(), user_name)
+    UIActions.set_text(login_page.input_password(), password)
+    UIActions.click(login_page.button_sign_in())
 
 
 def is_text_present(text):
-    return ui_actions.is_text_present(ManagePages.mp.txt_get_started(), text)
+    return UIActions.is_text_present(web_main_page.txt_get_started(), text)
 
 
 def go_to_bank_account_creation():
-    ui_actions.click(ManagePages.mp.tab_bank_acoount())
-    ui_actions.click(ManagePages.mp.button_create())
+    UIActions.click(web_main_page.tab_bank_acoount())
+    UIActions.click(web_main_page.button_create())
 
 
 def register_flow(first_name, last_name, user_name, password):
-    e = ManagePages.lp.locator_link_sign_up
-    ui_actions.click(e)
-    ui_actions.click(e)
-    ui_actions.set_text(ManagePages.su.locator_input_first_name, first_name)
-    ui_actions.set_text(ManagePages.su.locator_input_last_name, last_name)
-    ui_actions.set_text(ManagePages.su.locator_input_user_name, user_name)
-    ui_actions.set_text(ManagePages.su.locator_input_password, password)
-    ui_actions.set_text(ManagePages.su.locator_input_confirm_password, password)
-    ui_actions.click(ManagePages.su.locator_button_sign_up)
+    e = login_page.link_sign_up()
+    UIActions.click(e)
+    UIActions.click(e)
+    UIActions.set_text(sign_up_page.input_first_name(), first_name)
+    UIActions.set_text(sign_up_page.input_last_name(), last_name)
+    UIActions.set_text(sign_up_page.input_user_name(), user_name)
+    UIActions.set_text(sign_up_page.input_password(), password)
+    UIActions.set_text(sign_up_page.input_confirm_password(), password)
+    UIActions.click(sign_up_page.button_sign_up())
     login_flow(user_name, password)
 
 
 def create_bank_account(bank_name, routing_number, account_number):
-    ui_actions.set_text(ManagePages.cba.locator_bank_name(), bank_name)
-    ui_actions.set_text(ManagePages.cba.locator_routing_number(), routing_number)
-    ui_actions.set_text(ManagePages.cba.locator_account_number(), account_number)
-    ui_actions.click(ManagePages.cba.locator_button_save())
+    UIActions.set_text(create_bank_account_page.locator_bank_name(), bank_name)
+    UIActions.set_text(create_bank_account_page.locator_routing_number(), routing_number)
+    UIActions.set_text(create_bank_account_page.locator_account_number(), account_number)
+    UIActions.click(create_bank_account_page.locator_button_save())
 
 
 def create_new_transaction(contact_name, amount, note, action):
-    ui_actions.click(ManagePages.mp.button_new_transaction())
-    ui_actions.click(ManagePages.mp.button_contact_name(contact_name))
-    ui_actions.set_text(ManagePages.mp.input_amount(), amount)
-    ui_actions.set_text(ManagePages.mp.input_note(), note)
-    ui_actions.click(ManagePages.mp.button_action(action))
+    UIActions.click(web_main_page.button_new_transaction())
+    UIActions.click(web_main_page.button_contact_name(contact_name))
+    UIActions.set_text(web_main_page.input_amount(), amount)
+    UIActions.set_text(web_main_page.input_note(), note)
+    UIActions.click(web_main_page.button_action(action))
 
 
 def get_account_balance():
     import re
-    balance: str = ui_actions.get_element_text(ManagePages.mp.txt_account_balance())
+    balance: str = UIActions.get_element_text(web_main_page.txt_account_balance())
     balance = re.sub(f"[,$]", '', balance)
     return float(balance)
 
 
-def dismiss_notification(notification_name):
-    web_elems = ui_actions.get_element_list(ManagePages.np.button_dismis())
+def dismiss_notification():
+    web_elems = UIActions.get_element_list(notifications_page.button_dismis())
     i = random.randint(0, len(web_elems) - 1)
     web_elems[i].click()
 
 
 def get_notifications_tab():
-    ui_actions.click(ManagePages.mp.tab_notifications())
+    UIActions.click(web_main_page.tab_notifications())

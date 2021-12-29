@@ -1,13 +1,9 @@
 import allure
 
-from extensions import electron_actions
-from utils.managers.manage_pages import ManagePages
+from extensions.actions import UIActions
+from page_objects.electron import apidemos_page
 
 
 @allure.step("click on btn menuus")
 def click_menuus():
-    electron_actions.click(ManagePages.demo.get_btn_menuus())
-
-    # electron_actions.click(ManagePages.demo.get_btn_crash())
-
-    # electron_actions.click(ManagePages.demo.get_btn_windows())
+    UIActions.click(apidemos_page.get_btn_menuus())

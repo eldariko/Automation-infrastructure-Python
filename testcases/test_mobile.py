@@ -2,15 +2,16 @@ import allure
 import pytest
 import softest
 
-from extensions import ui_actions
+from extensions.actions import UIActions
 from extensions.verifictions import Verification
 from utils.common_ops import get_data
-from utils.managers.manage_pages import ManagePages
 from workflows import mobile_flows
+from page_objects.mobile import PayOffCalcPage, TvmCalcPage, LoanCalcPage, CompoundInterestCalcPage, \
+    CurrencyConverterPage
 
 
 @pytest.mark.usefixtures("my_mobile_starter")
-class Test_Mobile(softest.TestCase):
+class TestMobile(softest.TestCase):
 
     @allure.title("Time Value Of Money Calculator")
     @allure.description("filling text editors with keys and checking history data is presented")
@@ -22,6 +23,7 @@ class Test_Mobile(softest.TestCase):
                                                      get_data("test_01annual_rate"),
                                                      get_data("test_01periods"))
         mobile_flows.on_tvm_calc_check_history()
+        Verification.soft_assert_true((UIActions.get_element_text(TvmCalcPage.get_history_txt_view())))
         mobile_flows.on_tvm_calc_go_back()
         self.assert_all()
 
@@ -32,10 +34,10 @@ class Test_Mobile(softest.TestCase):
         mobile_flows.on_currency_converter_enter_keys_and_calculate(get_data("test_02rate"),
                                                                     get_data("test_02amount"))
         Verification.soft_assert_true(
-            ui_actions.get_element_text(ManagePages.currency_converter_page.get_big_red_txt()))
+            UIActions.get_element_text(CurrencyConverterPage.get_big_red_txt()))
         Verification.soft_assert_true(
-            ui_actions.get_element_text(ManagePages.currency_converter_page.get_small_red_txt()))
-        Verification.soft_assert_true(ui_actions.get_element_text(ManagePages.currency_converter_page.get_graph_img()))
+            UIActions.get_element_text(CurrencyConverterPage.get_small_red_txt()))
+        Verification.soft_assert_true(UIActions.get_element_text(CurrencyConverterPage.get_graph_img()))
         mobile_flows.on_currency_converter_go_back()
         self.assert_all()
 
@@ -48,7 +50,20 @@ class Test_Mobile(softest.TestCase):
                                                            get_data("test_03loan_term_years"),
                                                            get_data("test_03loan_term_months"),
                                                            get_data("test_03extra_payment"))
-        mobile_flows.on_loan_calc_check_red_massage()
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_monthly_payment_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_total_payment_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_total_interest_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_annual_payment_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_mortgage_constant_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_interest_saving_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(LoanCalcPage.get_payoff_earlier_txt_view()))
         mobile_flows.on_loan_calc_go_back()
         self.assert_all()
 
@@ -60,7 +75,14 @@ class Test_Mobile(softest.TestCase):
                                                                    get_data("test_04monthly_deposit"),
                                                                    get_data("test_04period"),
                                                                    get_data("test_04annual_interest_rate"))
-        mobile_flows.on_compound_interest_check_red_massages()
+        Verification.soft_assert_true(
+            UIActions.get_element_text(CompoundInterestCalcPage.get_total_principal_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(CompoundInterestCalcPage.get_interest_amount_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(CompoundInterestCalcPage.get_maturity_value_txt_view()))
+        Verification.soft_assert_true(
+            UIActions.get_element_text(CompoundInterestCalcPage.get_apy_txt_view()))
         mobile_flows.on_compound_interest_go_back()
         self.assert_all()
 
@@ -71,6 +93,6 @@ class Test_Mobile(softest.TestCase):
         mobile_flows.on_payoff_calc_enter_keys_and_calculate(get_data("test_05cc_balance"),
                                                              get_data("test_05cc_interest"),
                                                              get_data("test_05payment_per_month"))
-        mobile_flows.on_payoff_calc_check_red_massage()
+        Verification.soft_assert_true(UIActions.get_element_text(PayOffCalcPage.get_result()))
         mobile_flows.on_payoff_calc_go_back()
         self.assert_all()
