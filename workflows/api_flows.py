@@ -1,5 +1,5 @@
 import allure
-from extensions.apiactions import APIActions
+from extensions.api_actions import APIActions
 
 
 @allure.step("get_request")
@@ -15,6 +15,6 @@ def post_request(url, payload):
 
 
 @allure.step("delete_request")
-def delete_request(url, id):
-    response = APIActions.delete(url, id)
+def delete_request(url, user_id):
+    response = APIActions.delete(url, user_id)
     return response

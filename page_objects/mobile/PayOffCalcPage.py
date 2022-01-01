@@ -26,4 +26,4 @@ def get_result():
 
 
 def get_back_btn():
-    return By.XPATH, "//*[@contentDescription='Navigate up']"
+    return By.XPATH, "//*[@id='action_bar']/android.widget.ImageButton"

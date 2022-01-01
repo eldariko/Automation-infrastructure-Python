@@ -13,5 +13,5 @@ class TestElectron:
     @allure.title("testing electron")
     @allure.description("Test Customize Menus btn ")
     def test_01(self):
-        electron_flows.click_menuus()
+        electron_flows.click_menu()
         Verification.verify_equal(UIActions.get_element_text(apidemos_page.cust_me()), 'Customize Menus')

@@ -1,6 +1,5 @@
 import allure
 import requests
-import json
 
 
 class APIActions:
@@ -19,7 +18,7 @@ class APIActions:
 
     @staticmethod
     @allure.step("delete post by ID")
-    def delete(url, id):
-        s = f"{url}/{id}"
+    def delete(url, user_id):
+        s = f"{url}/{user_id}"
         response = requests.delete(s)
         return response

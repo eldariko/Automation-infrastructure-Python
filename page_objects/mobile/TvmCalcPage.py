@@ -42,4 +42,4 @@ def get_history_txt_view():
 
 
 def get_back_btn():
-    return By.XPATH, "//*[@contentDescription='Navigate up']"
+    return By.XPATH, "//*[@id='action_bar']/android.widget.ImageButton"
