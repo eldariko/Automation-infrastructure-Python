@@ -1,2 +1,3 @@
 npm run json:server
 yarn start
+run mysql on port 3306
