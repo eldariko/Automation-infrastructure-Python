@@ -17,7 +17,7 @@ def login(user_name, password, expected):
 class TestWeb:
 
     @pytest.mark.parametrize("user_name, password,expected",
-                             read_test_data_from_csv(r'C:\Users\bizyb\PycharmProjects\project\DDTFiles\web.csv'))
+                             read_test_data_from_csv(r'..\DDTFiles\web.csv'))
     @pytest.mark.great
     @pytest.mark.order("first")
     def test_login(self, user_name, password, expected):
@@ -26,7 +26,7 @@ class TestWeb:
     @pytest.mark.great
     @pytest.mark.parametrize("bank_name,routing_number,account_number,expected",
                              read_test_data_from_csv(
-                                 r'C:\Users\bizyb\PycharmProjects\project\DDTFiles\bank_accounts.csv'))
+                                 r'..\DDTFiles\bank_accounts.csv'))
     def test_create_bank_account(self, bank_name, routing_number, account_number, expected):
         web_flows.go_to_bank_account_creation()
         web_flows.create_bank_account(bank_name, routing_number, account_number)
@@ -35,7 +35,7 @@ class TestWeb:
     @pytest.mark.great
     @pytest.mark.parametrize("contact_name,amount,note,action",
                              read_test_data_from_csv(
-                                 r'C:\Users\bizyb\PycharmProjects\project\DDTFiles\transactions.csv'))
+                                 r'..\DDTFiles\transactions.csv'))
     def test_create_payment(self, contact_name, amount, note, action):
         balance_before = web_flows.get_account_balance()
         web_flows.create_new_transaction(contact_name, amount, note, action)
@@ -63,7 +63,7 @@ class TestWeb:
             print("Test passed. changes have been founds!")
 
     @pytest.mark.parametrize("first_name,last_name,user_name,password,expected",
-                             read_test_data_from_csv(r'C:\Users\bizyb\PycharmProjects\project\DDTFiles\users.csv'))
+                             read_test_data_from_csv(r'..\DDTFiles\users.csv'))
     def test_register(self, first_name, last_name, user_name, password, expected):
         web_flows.register_flow(first_name, last_name, user_name, password)
         assert web_flows.is_text_present(expected) is True
