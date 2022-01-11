@@ -80,7 +80,7 @@ def my_web_before_method():
     driver.get(url_before_method)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def db_set_up():
     global db
     db = mysql.connector.connect(

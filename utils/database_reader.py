@@ -19,3 +19,7 @@ def read_test_data_from_db():
     for t in myresult:
         test_data.append(list(t))
     return test_data
+
+
+if __name__ == "__main__":
+    read_test_data_from_db()

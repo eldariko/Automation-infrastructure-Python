@@ -3,8 +3,7 @@ from applitools.common import DiffsFoundError
 
 from extensions.actions import UIActions
 from page_objects.web import web_main_page
-from utils import database_reader
-from utils.csv_reader import read_test_data_from_csv
+from utils import csv_reader, database_reader
 from workflows import web_flows
 
 
@@ -16,25 +15,25 @@ def login(user_name, password, expected):
 @pytest.mark.usefixtures("my_web_starter", "my_web_before_method")
 class TestWeb:
 
-    @pytest.mark.parametrize("user_name, password,expected",
-                             read_test_data_from_csv(r'..\DDTFiles\web.csv'))
-    @pytest.mark.great
     @pytest.mark.order("first")
+    @pytest.mark.parametrize("user_name, password,expected",
+                             csv_reader.read_test_data_from_csv(r'..\DDTFiles\web.csv'))
     def test_login(self, user_name, password, expected):
         login(user_name, password, expected)
 
     @pytest.mark.great
     @pytest.mark.parametrize("bank_name,routing_number,account_number,expected",
-                             read_test_data_from_csv(
+                             csv_reader.read_test_data_from_csv(
                                  r'..\DDTFiles\bank_accounts.csv'))
     def test_create_bank_account(self, bank_name, routing_number, account_number, expected):
         web_flows.go_to_bank_account_creation()
         web_flows.create_bank_account(bank_name, routing_number, account_number)
         assert UIActions.get_element_text(web_main_page.txt_bank_name(bank_name)) == bank_name
 
+    @pytest.mark.dependency(depends=["test_login"])
     @pytest.mark.great
     @pytest.mark.parametrize("contact_name,amount,note,action",
-                             read_test_data_from_csv(
+                             csv_reader.read_test_data_from_csv(
                                  r'..\DDTFiles\transactions.csv'))
     def test_create_payment(self, contact_name, amount, note, action):
         balance_before = web_flows.get_account_balance()
@@ -44,7 +43,7 @@ class TestWeb:
 
     @pytest.mark.usefixtures("db_set_up")
     @pytest.mark.parametrize("user_name, password, expected",
-                             database_reader.read_test_data_from_db())
+                             database_reader.read_test_data_from_db(), scope="module")
     def test_login_with_db_params(self, user_name, password, expected):
         login(user_name, password, expected)
 
@@ -63,7 +62,7 @@ class TestWeb:
             print("Test passed. changes have been founds!")
 
     @pytest.mark.parametrize("first_name,last_name,user_name,password,expected",
-                             read_test_data_from_csv(r'..\DDTFiles\users.csv'))
+                             csv_reader.read_test_data_from_csv(r'..\DDTFiles\users.csv'))
     def test_register(self, first_name, last_name, user_name, password, expected):
         web_flows.register_flow(first_name, last_name, user_name, password)
         assert web_flows.is_text_present(expected) is True
