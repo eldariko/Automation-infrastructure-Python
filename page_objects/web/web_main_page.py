@@ -1,4 +1,3 @@
-from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 
@@ -41,7 +40,8 @@ def button_create():
 
 
 def txt_bank_name(bank_name):
-    return By.XPATH, f"//p[@class='MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary MuiTypography-gutterBottom'][text()='{bank_name}']"
+    return By.XPATH, f"//p[@class='MuiTypography-root MuiTypography-body1 MuiTypography-colorPrimary " \
+                     f"MuiTypography-gutterBottom'][text()='{bank_name}'] "
 
 
 def button_new_transaction():

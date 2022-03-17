@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-def get_btn_menuus():
+def get_btn_menus():
     return By.ID, "button-menus"
 
 

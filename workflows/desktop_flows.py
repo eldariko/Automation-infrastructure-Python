@@ -10,4 +10,4 @@ def addition():
     UIActions.click(calculator_page.get_two())
     UIActions.click(calculator_page.get_multi())
     UIActions.click(calculator_page.get_seven())
-    UIActions.click(calculator_page.get_equels())
+    UIActions.click(calculator_page.get_equals())

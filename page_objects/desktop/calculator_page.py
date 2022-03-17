@@ -16,7 +16,7 @@ def get_clear():
     return By.NAME, "Clear"
 
 
-def get_equels():
+def get_equals() -> tuple:
     return By.NAME, "Equals"
     # return self.driver.find_element_by_name("Equals")
 
